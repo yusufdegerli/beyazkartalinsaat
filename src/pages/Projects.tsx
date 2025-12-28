@@ -1,23 +1,115 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { PageTransition } from '../components/Layout';
+import { projects } from '../lib/data';
+import { ArrowRight, MapPin } from 'lucide-react';
+import { cn } from '../lib/utils';
 
 const Projects = () => {
+  const [filter, setFilter] = useState<'all' | 'tamamlanan' | 'devam-eden'>('all');
+
+  // Check URL params for initial filter (e.g., /projeler?durum=tamamlanan)
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path.includes('/tamamlanan')) setFilter('tamamlanan');
+    else if (path.includes('/devam-eden')) setFilter('devam-eden');
+    else setFilter('all');
+  }, [window.location.pathname]);
+
+  const filteredProjects = projects.filter(project => 
+    filter === 'all' ? true : project.category === filter
+  );
+
   return (
     <PageTransition>
       <div className="pt-24 pb-12 bg-slate-50 min-h-screen">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold text-slate-900 mb-8">Projelerimiz</h1>
+          
+          <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+            <h1 className="text-4xl font-bold text-slate-900">Projelerimiz</h1>
+            
+            {/* Filter Buttons */}
+            <div className="flex bg-white p-1 rounded-lg shadow-sm border border-slate-200">
+              <button 
+                onClick={() => setFilter('all')}
+                className={cn(
+                  "px-6 py-2 rounded-md text-sm font-medium transition-all",
+                  filter === 'all' ? "bg-slate-900 text-white shadow-sm" : "text-slate-600 hover:text-slate-900"
+                )}
+              >
+                Tümü
+              </button>
+              <button 
+                onClick={() => setFilter('devam-eden')}
+                className={cn(
+                  "px-6 py-2 rounded-md text-sm font-medium transition-all",
+                  filter === 'devam-eden' ? "bg-slate-900 text-white shadow-sm" : "text-slate-600 hover:text-slate-900"
+                )}
+              >
+                Devam Eden
+              </button>
+              <button 
+                onClick={() => setFilter('tamamlanan')}
+                className={cn(
+                  "px-6 py-2 rounded-md text-sm font-medium transition-all",
+                  filter === 'tamamlanan' ? "bg-slate-900 text-white shadow-sm" : "text-slate-600 hover:text-slate-900"
+                )}
+              >
+                Tamamlanan
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Placeholder for projects list */}
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-               <div key={i} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all">
-                 <div className="h-64 bg-slate-200 bg-cover bg-center" style={{backgroundImage: `url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`}}></div>
-                 <div className="p-6">
-                   <h3 className="text-xl font-bold text-slate-900 mb-2">Kartal Residence {i}</h3>
-                   <p className="text-slate-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            {filteredProjects.map((project) => (
+               <Link 
+                 to={`/projeler/${project.id}`} 
+                 key={project.id} 
+                 className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col h-full"
+               >
+                 <div className="aspect-[4/3] overflow-hidden relative">
+                   <div 
+                     className="w-full h-full bg-slate-200 transition-transform duration-700 group-hover:scale-110 bg-cover bg-center" 
+                     style={{backgroundImage: `url('${project.coverImage}')`}} 
+                   />
+                   <div className="absolute top-4 left-4">
+                      <span className={cn(
+                        "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm",
+                        project.category === 'devam-eden' ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"
+                      )}>
+                        {project.category === 'devam-eden' ? 'Devam Ediyor' : 'Tamamlandı'}
+                      </span>
+                   </div>
+                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                  </div>
-               </div>
+                 
+                 <div className="p-6 flex flex-col flex-grow">
+                   <div className="flex items-center text-slate-500 text-sm mb-3">
+                     <MapPin size={14} className="mr-1" />
+                     {project.location}
+                   </div>
+                   <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors">
+                     {project.title}
+                   </h3>
+                   <p className="text-slate-600 line-clamp-3 mb-6 text-sm flex-grow">
+                     {project.description}
+                   </p>
+                   
+                   <div className="pt-4 border-t border-slate-100 flex justify-between items-center text-primary font-medium text-sm">
+                     <span>Detayları İncele</span>
+                     <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
+                   </div>
+                 </div>
+               </Link>
             ))}
           </div>
+          
+          {filteredProjects.length === 0 && (
+             <div className="text-center py-20">
+                <p className="text-slate-500 text-lg">Bu kategoride henüz proje bulunmamaktadır.</p>
+             </div>
+          )}
+
         </div>
       </div>
     </PageTransition>

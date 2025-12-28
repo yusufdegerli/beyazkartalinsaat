@@ -1,0 +1,86 @@
+{
+  "projects": [
+    {
+      "id": "kartal-vadi-konaklari",
+      "title": "Kartal Vadi Konakları",
+      "category": "devam-eden",
+      "location": "Kartal, İstanbul",
+      "description": "Şehrin gürültüsünden uzak ama şehrin tam kalbinde. Kartal Vadi Konakları, modern mimarisi ve geniş peyzaj alanlarıyla size huzurlu bir yaşam sunuyor. Çocuk oyun alanları, yüzme havuzu ve sosyal tesisleriyle aileniz için en iyisi.",
+      "coverImage": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1484154218962-a1c00207099b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+      ],
+      "features": {
+        "startDate": "Ocak 2024",
+        "deliveryDate": "Haziran 2026",
+        "totalArea": "15.000 m²",
+        "blockCount": 4,
+        "apartmentCount": 120,
+        "type": "Konut + Ticari"
+      }
+    },
+    {
+      "id": "bosphorus-view",
+      "title": "Bosphorus View",
+      "category": "tamamlanan",
+      "location": "Sarıyer, İstanbul",
+      "description": "Boğazın eşsiz manzarasına hakim, lüksün ve konforun buluşma noktası. Akıllı ev teknolojileriyle donatılmış, özel tasarım daireler.",
+      "coverImage": "https://images.unsplash.com/photo-1600596542815-e32cb5ec0866?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1600596542815-e32cb5ec0866?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+      ],
+      "features": {
+        "startDate": "Mart 2021",
+        "deliveryDate": "Ağustos 2023",
+        "totalArea": "8.500 m²",
+        "blockCount": 2,
+        "apartmentCount": 48,
+        "type": "Lüks Konut"
+      }
+    },
+    {
+      "id": "beyaz-tower",
+      "title": "Beyaz Tower",
+      "category": "tamamlanan",
+      "location": "Ataşehir, İstanbul",
+      "description": "Finans merkezinin yanı başında, iş dünyasının yeni adresi. Modern ofis çözümleri ve prestijli bir çalışma ortamı.",
+      "coverImage": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+      ],
+      "features": {
+        "startDate": "Eylül 2020",
+        "deliveryDate": "Aralık 2022",
+        "totalArea": "25.000 m²",
+        "blockCount": 1,
+        "apartmentCount": 85,
+        "type": "Ofis / Plaza"
+      }
+    },
+    {
+      "id": "yesil-vadi",
+      "title": "Yeşil Vadi Evleri",
+      "category": "devam-eden",
+      "location": "Çekmeköy, İstanbul",
+      "description": "Doğa ile iç içe, yatay mimari konseptiyle tasarlanmış huzurlu bir yaşam alanı. Orman manzaralı teraslar ve geniş bahçeler.",
+      "coverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1600573472592-401b489a3cdc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+      ],
+      "features": {
+        "startDate": "Temmuz 2024",
+        "deliveryDate": "Temmuz 2026",
+        "totalArea": "40.000 m²",
+        "blockCount": 12,
+        "apartmentCount": 200,
+        "type": "Villa / Konut"
+      }
+    }
+  ]
+}

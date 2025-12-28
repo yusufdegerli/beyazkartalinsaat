@@ -1,0 +1,36 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "data"
+    label: "Site Verileri"
+    files:
+      - name: "projects"
+        label: "Projeler"
+        file: "src/data/projects.json"
+        fields:
+          - label: "Projeler Listesi"
+            name: "projects"
+            widget: "list"
+            fields:
+              - {label: "ID (Benzersiz URL)", name: "id", widget: "string"}
+              - {label: "Başlık", name: "title", widget: "string"}
+              - {label: "Kategori", name: "category", widget: "select", options: ["tamamlanan", "devam-eden"]}
+              - {label: "Konum", name: "location", widget: "string"}
+              - {label: "Kısa Açıklama", name: "description", widget: "text"}
+              - {label: "Kapak Fotoğrafı", name: "coverImage", widget: "image"}
+              - {label: "Galeri Görselleri", name: "images", widget: "list", field: {label: "Image", widget: "image"}}
+              - label: "Teknik Özellikler"
+                name: "features"
+                widget: "object"
+                fields:
+                  - {label: "Başlangıç Tarihi", name: "startDate", widget: "string"}
+                  - {label: "Teslim Tarihi", name: "deliveryDate", widget: "string"}
+                  - {label: "Toplam Alan", name: "totalArea", widget: "string"}
+                  - {label: "Blok Sayısı", name: "blockCount", widget: "number"}
+                  - {label: "Daire Sayısı", name: "apartmentCount", widget: "number"}
+                  - {label: "Proje Tipi", name: "type", widget: "string"}
