@@ -58,21 +58,21 @@ const Navbar = () => {
   ];
 
   // Text color logic: White at top (transparent bg), Dark when scrolled (white bg)
-  const textColorClass = scrolled ? "text-slate-800" : "text-white";
+  const textColorClass = scrolled ? "text-navy-900" : "text-white";
   const hoverColorClass = scrolled ? "hover:text-primary" : "hover:text-primary/80";
 
   return (
     <nav
       className={cn(
         'fixed top-0 w-full z-50 transition-all duration-300 border-transparent',
-        scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-2' : 'bg-gradient-to-b from-black/50 to-transparent py-4'
+        scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-2' : 'bg-gradient-to-b from-navy-900/80 to-transparent py-4'
       )}
     >
-      <div className="w-full px-4 md:px-8 flex justify-between items-center">
+      <div className="w-full pl-0 pr-4 md:pl-0 md:pr-8 flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 z-50">
+        <Link to="/" className="flex items-center gap-2 z-50 -ml-8">
            <img 
-             src="https://beyazinsaat.com.tr/wp-content/uploads/2021/09/logo-1.png" 
+             src="https://beyazinsaat.com.tr/wp-content/uploads/2021/09/logo-1.png"  
              alt="Beyaz Kartal Logo" 
              className={cn(
                "h-14 w-auto transition-all duration-300",
@@ -119,7 +119,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className={cn("lg:hidden p-2 z-50 transition-colors", scrolled ? "text-slate-800" : "text-white")}
+          className={cn("lg:hidden p-2 z-50 transition-colors", scrolled ? "text-navy-900" : "text-white")}
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -143,7 +143,7 @@ const Navbar = () => {
                     <div>
                       <button 
                         onClick={() => setActiveSubmenu(activeSubmenu === link.name ? null : link.name)}
-                        className="flex items-center justify-between w-full text-lg font-bold text-slate-900 py-4"
+                        className="flex items-center justify-between w-full text-lg font-bold text-navy-900 py-4"
                       >
                         {link.name}
                         <ChevronDown 
@@ -175,7 +175,7 @@ const Navbar = () => {
                   ) : (
                     <Link
                       to={link.path}
-                      className="block text-lg font-bold text-slate-900 py-4 hover:text-primary"
+                      className="block text-lg font-bold text-navy-900 py-4 hover:text-primary"
                     >
                       {link.name}
                     </Link>
