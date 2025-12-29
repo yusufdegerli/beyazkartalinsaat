@@ -7,6 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
+        navy: {
+          900: '#0a192f',
+          800: '#112240',
+          700: '#233554',
+          50: '#f0f4f8',
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -48,6 +54,7 @@ export default {
       },
       fontFamily: {
         sans: ['"Inter"', 'sans-serif'],
+        serif: ['"Playfair Display"', 'serif'],
       }
     },
   },
