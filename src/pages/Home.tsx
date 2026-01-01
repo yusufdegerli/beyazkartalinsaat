@@ -76,7 +76,8 @@ const Home = () => {
       {/* Stats Section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
               { icon: Building2, count: "50+", label: "Tamamlanan Proje" },
               { icon: Users, count: "1000+", label: "Mutlu Aile" },
@@ -92,6 +93,7 @@ const Home = () => {
                 </div>
               </Reveal>
             ))}
+          </div>
           </div>
         </div>
       </section>
@@ -157,7 +159,7 @@ const Home = () => {
         <div className="container mx-auto px-4 relative z-10 text-center">
           <Reveal width="100%">
             <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-8 leading-tight">
-              Hayalinizdeki Yaşama <br/> <span className="text-primary">Adım Atın</span>
+              Hayalinizdeki Yaşama <br/> <span className="text-blue-400">Adım Atın</span>
             </h2>
           </Reveal>
           <Reveal width="100%" delay={0.2}>

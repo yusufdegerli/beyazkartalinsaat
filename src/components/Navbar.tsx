@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import logoDark from '../assets/beyazkartallogo.png';
+import logoLight from '../assets/beyazkartallogo_reverse.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,17 +70,29 @@ const Navbar = () => {
         scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-2' : 'bg-gradient-to-b from-navy-900/80 to-transparent py-4'
       )}
     >
-      <div className="w-full pl-0 pr-4 md:pl-0 md:pr-8 flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 z-50 -ml-8">
-           <img 
-             src="https://beyazinsaat.com.tr/wp-content/uploads/2021/09/logo-1.png"  
-             alt="Beyaz Kartal Logo" 
-             className={cn(
-               "h-14 w-auto transition-all duration-300",
-               !scrolled && "brightness-0 invert" // Make logo white at top
-             )}
-           />
+      <div className="w-full px-2 md:px-4 flex justify-between items-center">
+        {/* Logo Container */}
+        <Link to="/" className="relative z-50 -ml-2 h-20 w-48 flex items-center">
+          <div className="relative w-full h-full">
+            {/* Dark Logo (Scrolled) */}
+            <motion.img 
+              src={logoDark}
+              alt="Beyaz Kartal Logo Dark" 
+              initial={false}
+              animate={{ opacity: scrolled ? 1 : 0 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="h-20 w-auto absolute left-0 top-0 object-contain"
+            />
+            {/* Light Logo (Top/Transparent) */}
+            <motion.img 
+              src={logoLight}
+              alt="Beyaz Kartal Logo Light" 
+              initial={false}
+              animate={{ opacity: scrolled ? 0 : 1 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="h-20 w-auto absolute left-0 top-0 object-contain"
+            />
+          </div>
         </Link>
 
         {/* Desktop Menu */}
