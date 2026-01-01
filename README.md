@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# Beyaz Kartal İnşaat
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern yaşam alanları inşa eden Beyaz Kartal İnşaat'ın resmi kurumsal web sitesi. Bu proje, estetik, konfor ve güveni ön planda tutan projelerimizi sergilemek amacıyla modern web teknolojileri ile geliştirilmiştir.
 
-Currently, two official plugins are available:
+## 🚀 Teknolojiler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Bu proje aşağıdaki teknolojiler kullanılarak geliştirilmiştir:
 
-## React Compiler
+- **Framework:** [React 18](https://reactjs.org/)
+- **Build Tool:** [Vite](https://vitejs.dev/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Routing:** [React Router DOM](https://reactrouter.com/)
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## ✨ Özellikler
 
-## Expanding the ESLint configuration
+- **Modern UI/UX:** Temiz ve kullanıcı dostu arayüz.
+- **3D Hero Section:** Etkileyici görsel deneyim.
+- **Dinamik Proje Listeleme:** Tamamlanan ve devam eden projelerin detaylı görünümü.
+- **Çoklu Dil Desteği:** TR, EN, RU, AR, RO, HU dillerinde içerik desteği.
+- **Dinamik Navbar:** Sayfa kaydırma durumuna göre değişen logo ve stil adaptasyonu.
+- **Responsive Tasarım:** Tüm cihazlarda (mobil, tablet, masaüstü) tam uyumluluk.
+- **İnsan Kaynakları:** İş başvuru formu ve İK politikaları.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🎨 Kurumsal Kimlik
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Projenin renk paleti ve görsel kimliği Beyaz Kartal İnşaat markasına uygun olarak güncellenmiştir:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Ana Renk (Navy):** `#044276`
+- **İkincil Renkler:** `#3E5C79`, `#798D9F`, `#BAC4CA`
+- **Arka Plan:** `#FDFCFA`
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Logo tasarımı, sayfanın şeffaf veya beyaz arka plan durumuna göre otomatik olarak geçiş yapan yumuşak bir animasyonla entegre edilmiştir.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Kurulum
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Projeyi yerel bilgisayarınızda çalıştırmak için:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Depoyu klonlayın:
+   ```bash
+   git clone [repository-url]
+   ```
+
+2. Bağımlılıkları yükleyin:
+   ```bash
+   npm install
+   ```
+
+3. Geliştirme sunucusunu başlatın:
+   ```bash
+   npm run dev
+   ```
+
+4. Üretim sürümü için build alın:
+   ```bash
+   npm run build
+   ```
+
+## 📄 Lisans
+
+Bu proje Beyaz Kartal İnşaat'a aittir. Tüm hakları saklıdır.
