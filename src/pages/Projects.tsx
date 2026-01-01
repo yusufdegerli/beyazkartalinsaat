@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { PageTransition } from '../components/Layout';
 import { ArrowRight, MapPin } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { getProjects, SanityProject } from '../lib/sanityQueries';
+import { getProjects } from '../lib/sanityQueries';
+import type { SanityProject } from '../lib/sanityQueries';
 import { urlFor } from '../sanity/client';
 
 const Projects = () => {

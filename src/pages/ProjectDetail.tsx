@@ -3,7 +3,8 @@ import { PageTransition } from '../components/Layout';
 import { Calendar, Ruler, Building, Home, MapPin, ArrowLeft, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { getProject, SanityProject } from '../lib/sanityQueries';
+import { getProject } from '../lib/sanityQueries';
+import type { SanityProject } from '../lib/sanityQueries';
 import { urlFor } from '../sanity/client';
 
 const ProjectDetail = () => {

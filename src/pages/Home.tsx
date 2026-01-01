@@ -5,7 +5,8 @@ import { Reveal } from '../components/ui/Reveal';
 import Hero3D from '../components/ui/Hero3D';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
-import { getFeaturedProjects, SanityProject } from '../lib/sanityQueries';
+import { getFeaturedProjects } from '../lib/sanityQueries';
+import type { SanityProject } from '../lib/sanityQueries';
 import { urlFor } from '../sanity/client';
 
 const Home = () => {
