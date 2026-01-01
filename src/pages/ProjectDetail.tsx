@@ -1,20 +1,40 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { PageTransition } from '../components/Layout';
-import { projects } from '../lib/data';
 import { Calendar, Ruler, Building, Home, MapPin, ArrowLeft, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { getProject, SanityProject } from '../lib/sanityQueries';
+import { urlFor } from '../sanity/client';
 
 const ProjectDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // 'id' here corresponds to the slug in the route /projeler/:id
   const navigate = useNavigate();
-  const project = projects.find(p => p.id === id);
+  const [project, setProject] = useState<SanityProject | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (id) {
+      getProject(id)
+        .then((data) => {
+          setProject(data);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching project:", err);
+          setIsLoading(false);
+        });
+    }
   }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-navy-900"></div>
+      </div>
+    );
+  }
 
   if (!project) {
     return (
@@ -27,17 +47,19 @@ const ProjectDetail = () => {
     );
   }
 
+  const galleryImages = project.gallery ? project.gallery.map(img => urlFor(img).url()) : [];
+
   const handleNextImage = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (selectedImageIndex !== null) {
-      setSelectedImageIndex((prev) => (prev! + 1) % project.images.length);
+    if (selectedImageIndex !== null && galleryImages.length > 0) {
+      setSelectedImageIndex((prev) => (prev! + 1) % galleryImages.length);
     }
   };
 
   const handlePrevImage = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (selectedImageIndex !== null) {
-      setSelectedImageIndex((prev) => (prev! - 1 + project.images.length) % project.images.length);
+    if (selectedImageIndex !== null && galleryImages.length > 0) {
+      setSelectedImageIndex((prev) => (prev! - 1 + galleryImages.length) % galleryImages.length);
     }
   };
 
@@ -50,7 +72,7 @@ const ProjectDetail = () => {
            <div className="absolute inset-0 bg-slate-900">
              <div 
                className="absolute inset-0 bg-cover bg-center opacity-60"
-               style={{backgroundImage: `url('${project.coverImage}')`}}
+               style={{backgroundImage: `url('${urlFor(project.mainImage).url()}')`}}
              />
              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
            </div>
@@ -63,12 +85,14 @@ const ProjectDetail = () => {
                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                  <div>
                    <div className="flex items-center gap-3 mb-3">
-                     <span className={`px-3 py-1 rounded-full text-sm font-semibold ${project.category === 'devam-eden' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-green-500/20 text-green-300 border border-green-500/30'}`}>
-                       {project.category === 'devam-eden' ? 'Devam Eden Proje' : 'Tamamlanan Proje'}
+                     <span className={`px-3 py-1 rounded-full text-sm font-semibold ${project.status === 'devam-eden' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-green-500/20 text-green-300 border border-green-500/30'}`}>
+                       {project.status === 'devam-eden' ? 'Devam Eden Proje' : 'Tamamlanan Proje'}
                      </span>
-                     <span className="flex items-center gap-1 text-slate-300 text-sm">
-                       <MapPin size={14} /> {project.location}
-                     </span>
+                     {project.location && (
+                       <span className="flex items-center gap-1 text-slate-300 text-sm">
+                         <MapPin size={14} /> {project.location}
+                       </span>
+                     )}
                    </div>
                    <h1 className="text-4xl md:text-6xl font-bold text-white">{project.title}</h1>
                  </div>
@@ -86,27 +110,29 @@ const ProjectDetail = () => {
               {/* Description Card */}
               <div className="bg-white rounded-2xl p-8 shadow-sm">
                 <h2 className="text-2xl font-bold text-slate-900 mb-4">Proje Hakkında</h2>
-                <p className="text-slate-600 leading-relaxed text-lg">
+                <p className="text-slate-600 leading-relaxed text-lg whitespace-pre-wrap">
                   {project.description}
                 </p>
               </div>
 
               {/* Gallery */}
-              <div>
-                <h2 className="text-2xl font-bold text-slate-900 mb-6">Galeri</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {project.images.map((img, idx) => (
-                    <div 
-                      key={idx} 
-                      className="aspect-square rounded-xl overflow-hidden cursor-pointer group relative"
-                      onClick={() => setSelectedImageIndex(idx)}
-                    >
-                      <img src={img} alt={`${project.title} ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                    </div>
-                  ))}
+              {galleryImages.length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-bold text-slate-900 mb-6">Galeri</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {galleryImages.map((imgUrl, idx) => (
+                      <div 
+                        key={idx} 
+                        className="aspect-square rounded-xl overflow-hidden cursor-pointer group relative"
+                        onClick={() => setSelectedImageIndex(idx)}
+                      >
+                        <img src={imgUrl} alt={`${project.title} ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
             </div>
 
@@ -115,51 +141,61 @@ const ProjectDetail = () => {
                <div className="bg-white rounded-2xl p-8 shadow-lg border-t-4 border-primary sticky top-24">
                  <h3 className="text-xl font-bold text-slate-900 mb-6">Proje Özellikleri</h3>
                  <div className="space-y-6">
-                    <div className="flex items-center gap-4">
-                       <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary">
-                         <Calendar size={20} />
-                       </div>
-                       <div>
-                         <p className="text-sm text-slate-500">Başlangıç Tarihi</p>
-                         <p className="font-semibold text-slate-900">{project.features.startDate}</p>
-                       </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                       <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary">
-                         <Calendar size={20} />
-                       </div>
-                       <div>
-                         <p className="text-sm text-slate-500">Teslim Tarihi</p>
-                         <p className="font-semibold text-slate-900">{project.features.deliveryDate}</p>
-                       </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                       <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary">
-                         <Ruler size={20} />
-                       </div>
-                       <div>
-                         <p className="text-sm text-slate-500">İnşaat Alanı</p>
-                         <p className="font-semibold text-slate-900">{project.features.totalArea}</p>
-                       </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                       <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary">
-                         <Building size={20} />
-                       </div>
-                       <div>
-                         <p className="text-sm text-slate-500">Blok Sayısı</p>
-                         <p className="font-semibold text-slate-900">{project.features.blockCount} Blok</p>
-                       </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                       <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary">
-                         <Home size={20} />
-                       </div>
-                       <div>
-                         <p className="text-sm text-slate-500">Bağımsız Bölüm</p>
-                         <p className="font-semibold text-slate-900">{project.features.apartmentCount} Daire</p>
-                       </div>
-                    </div>
+                    {project.startDate && (
+                      <div className="flex items-center gap-4">
+                         <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary">
+                           <Calendar size={20} />
+                         </div>
+                         <div>
+                           <p className="text-sm text-slate-500">Başlangıç Tarihi</p>
+                           <p className="font-semibold text-slate-900">{project.startDate}</p>
+                         </div>
+                      </div>
+                    )}
+                    {project.endDate && (
+                      <div className="flex items-center gap-4">
+                         <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary">
+                           <Calendar size={20} />
+                         </div>
+                         <div>
+                           <p className="text-sm text-slate-500">Teslim Tarihi</p>
+                           <p className="font-semibold text-slate-900">{project.endDate}</p>
+                         </div>
+                      </div>
+                    )}
+                    {project.constructionArea && (
+                      <div className="flex items-center gap-4">
+                         <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary">
+                           <Ruler size={20} />
+                         </div>
+                         <div>
+                           <p className="text-sm text-slate-500">İnşaat Alanı</p>
+                           <p className="font-semibold text-slate-900">{project.constructionArea}</p>
+                         </div>
+                      </div>
+                    )}
+                    {project.blockCount && (
+                      <div className="flex items-center gap-4">
+                         <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary">
+                           <Building size={20} />
+                         </div>
+                         <div>
+                           <p className="text-sm text-slate-500">Blok Sayısı</p>
+                           <p className="font-semibold text-slate-900">{project.blockCount} Blok</p>
+                         </div>
+                      </div>
+                    )}
+                    {project.unitCount && (
+                      <div className="flex items-center gap-4">
+                         <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-primary">
+                           <Home size={20} />
+                         </div>
+                         <div>
+                           <p className="text-sm text-slate-500">Bağımsız Bölüm</p>
+                           <p className="font-semibold text-slate-900">{project.unitCount} Daire</p>
+                         </div>
+                      </div>
+                    )}
                  </div>
 
                  <Link 
@@ -176,7 +212,7 @@ const ProjectDetail = () => {
 
         {/* Lightbox / Modal for Images */}
         <AnimatePresence>
-          {selectedImageIndex !== null && (
+          {selectedImageIndex !== null && galleryImages.length > 0 && (
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -206,7 +242,7 @@ const ProjectDetail = () => {
                 key={selectedImageIndex}
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                src={project.images[selectedImageIndex]} 
+                src={galleryImages[selectedImageIndex]} 
                 alt="Full size" 
                 className="max-h-[90vh] max-w-full rounded-lg shadow-2xl object-contain"
                 onClick={(e) => e.stopPropagation()}

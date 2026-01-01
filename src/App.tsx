@@ -14,9 +14,19 @@ import Kvkk from './pages/Kvkk';
 import JobApplication from './pages/JobApplication';
 
 import ProjectDetail from './pages/ProjectDetail';
+import Studio from './pages/Studio';
 
 function App() {
   const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  if (isAdmin) {
+    return (
+      <Routes>
+        <Route path="/admin/*" element={<Studio />} />
+      </Routes>
+    );
+  }
 
   return (
     <Layout>

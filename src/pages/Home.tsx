@@ -4,11 +4,14 @@ import { PageTransition } from '../components/Layout';
 import { Reveal } from '../components/ui/Reveal';
 import Hero3D from '../components/ui/Hero3D';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
-import projectsData from '../data/projects.json';
+import { useRef, useEffect, useState } from 'react';
+import { getFeaturedProjects, SanityProject } from '../lib/sanityQueries';
+import { urlFor } from '../sanity/client';
 
 const Home = () => {
   const heroRef = useRef(null);
+  const [featuredProjects, setFeaturedProjects] = useState<SanityProject[]>([]);
+  
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
@@ -17,8 +20,9 @@ const Home = () => {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
-  // Get first 3 projects for the featured section
-  const featuredProjects = projectsData.projects.slice(0, 3);
+  useEffect(() => {
+    getFeaturedProjects().then(setFeaturedProjects);
+  }, []);
 
   return (
     <PageTransition>
@@ -118,16 +122,16 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {featuredProjects.map((project, i) => (
-              <Reveal key={project.id} delay={i * 0.1}>
+              <Reveal key={project._id} delay={i * 0.1}>
                 <div className="group relative bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 rounded-sm">
                   <div className="aspect-[4/5] overflow-hidden relative">
                     <div className="absolute inset-0 bg-navy-900/20 group-hover:bg-navy-900/0 z-10 transition-colors duration-500" />
                     <div className={`w-full h-full bg-slate-200 transition-transform duration-1000 group-hover:scale-110 bg-cover bg-center`} 
-                         style={{backgroundImage: `url('${project.coverImage}')`}} 
+                         style={{backgroundImage: `url('${urlFor(project.mainImage).url()}')`}} 
                     />
                     <div className="absolute top-4 left-4 z-20">
                        <span className="bg-white/90 backdrop-blur text-navy-900 text-xs font-bold px-3 py-1 uppercase tracking-widest">
-                         {project.features.type}
+                         {project.status === 'devam-eden' ? 'Devam Eden' : 'Tamamlanan'}
                        </span>
                     </div>
                   </div>
@@ -136,7 +140,7 @@ const Home = () => {
                     <p className="text-slate-500 mb-6 line-clamp-2 text-sm leading-relaxed">
                       {project.description}
                     </p>
-                    <Link to={`/projeler/${project.id}`} className="inline-flex items-center text-navy-900 font-semibold hover:text-primary transition-colors text-sm uppercase tracking-wide">
+                    <Link to={`/projeler/${project.slug.current}`} className="inline-flex items-center text-navy-900 font-semibold hover:text-primary transition-colors text-sm uppercase tracking-wide">
                       Projeyi İncele <ChevronRight size={16} className="ml-1" />
                     </Link>
                   </div>
